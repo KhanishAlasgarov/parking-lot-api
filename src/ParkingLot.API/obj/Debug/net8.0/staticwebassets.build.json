@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "owzBRBrgY5rlRs7AIBjGdzlIN7c6f4W+Mhmwqj53hWs=",
+  "Source": "ParkingLot.API",
+  "BasePath": "_content/ParkingLot.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

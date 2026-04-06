@@ -1,0 +1,89 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "ParkingLot.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/ParkingLot.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ParkingLot.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ParkingLot.Domain/1.0.0": {
+      "type": "project",
+      "path": "../ParkingLot.Domain/ParkingLot.Domain.csproj",
+      "msbuildProject": "../ParkingLot.Domain/ParkingLot.Domain.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "ParkingLot.Domain >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/home/khanish/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Application/ParkingLot.Application.csproj",
+      "projectName": "ParkingLot.Application",
+      "projectPath": "/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Application/ParkingLot.Application.csproj",
+      "packagesPath": "/home/khanish/.nuget/packages/",
+      "outputPath": "/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Application/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/khanish/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {
+            "/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Domain/ParkingLot.Domain.csproj": {
+              "projectPath": "/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Domain/ParkingLot.Domain.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.124/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
