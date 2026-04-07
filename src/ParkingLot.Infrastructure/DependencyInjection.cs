@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ParkingLot.Application.Interfaces;
 using ParkingLot.Domain.Interfaces;
+using ParkingLot.Infrastructure.Identity;
 using ParkingLot.Infrastructure.Persistence;
 using ParkingLot.Infrastructure.Repositories;
 
@@ -14,6 +17,11 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(config.GetConnectionString("DefaultConnection")));
 
+        services.AddIdentity<AppUser, IdentityRole<Guid>>()
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
+
+        services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IParkingSpotRepository, ParkingSpotRepository>();
         services.AddScoped<IParkingTicketRepository, ParkingTicketRepository>();
         services.AddScoped<IVehicleRepository, VehicleRepository>();

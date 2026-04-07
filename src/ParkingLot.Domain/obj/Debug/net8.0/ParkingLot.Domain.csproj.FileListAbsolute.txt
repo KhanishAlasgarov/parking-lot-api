@@ -9,3 +9,4 @@
 /home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/refint/ParkingLot.Domain.dll
 /home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/ParkingLot.Domain.pdb
 /home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/ref/ParkingLot.Domain.dll
+/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/ParkingLot.Domain.sourcelink.json
