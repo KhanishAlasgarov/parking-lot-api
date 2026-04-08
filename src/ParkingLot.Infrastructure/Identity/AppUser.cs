@@ -6,4 +6,5 @@ namespace ParkingLot.Infrastructure.Identity;
 public class AppUser : IdentityUser<Guid>
 {
     public UserRole Role { get; set; }
+    public bool IsActive { get; set; } = true;
 }

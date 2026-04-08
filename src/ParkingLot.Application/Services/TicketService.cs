@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ParkingLot.Application.Common.Interfaces;
 using ParkingLot.Application.DTOs;
 using ParkingLot.Application.Interfaces;
 using ParkingLot.Domain.Entities;
@@ -14,14 +15,14 @@ public class TicketService : ITicketService
     private readonly IParkingSpotRepository _spotRepo;
     private readonly IParkingTicketRepository _ticketRepo;
     private readonly IPricingEngine _pricingEngine;
-    private readonly DbContext _dbContext;
+    private readonly IApplicationDbContext _dbContext;
 
     public TicketService(
         IVehicleRepository vehicleRepo,
         IParkingSpotRepository spotRepo,
         IParkingTicketRepository ticketRepo,
         IPricingEngine pricingEngine,
-        DbContext dbContext)
+        IApplicationDbContext dbContext)
     {
         _vehicleRepo = vehicleRepo;
         _spotRepo = spotRepo;
@@ -46,7 +47,7 @@ public class TicketService : ITicketService
         }
 
         // 2. Check if vehicle already has an active ticket
-        var existingTickets = _dbContext.Set<ParkingTicket>()
+        var existingTickets = _dbContext.ParkingTickets
             .Where(t => t.VehicleId == vehicle.Id &&
                         (t.State == TicketState.Active || t.State == TicketState.Issued));
 
@@ -112,7 +113,7 @@ public class TicketService : ITicketService
         var exitTime = DateTime.UtcNow;
         var spot = await _spotRepo.GetByIdAsync(ticket.SpotId, ct);
         var lotId = spot is not null
-            ? (await _dbContext.Set<ParkingFloor>().FirstOrDefaultAsync(f => f.Id == spot.FloorId, ct))?.LotId ?? Guid.Empty
+            ? (await _dbContext.ParkingFloors.FirstOrDefaultAsync(f => f.Id == spot.FloorId, ct))?.LotId ?? Guid.Empty
             : Guid.Empty;
 
         var totalAmount = await _pricingEngine.CalculateFeeAsync(lotId, ticket.EntryTime, exitTime, ct);
@@ -133,7 +134,7 @@ public class TicketService : ITicketService
             PaidAt = DateTime.UtcNow,
             ReferenceNo = "PAY-" + DateTime.UtcNow.Ticks
         };
-        _dbContext.Set<Payment>().Add(payment);
+        _dbContext.Payments.Add(payment);
 
         // 6. Save changes
         await _dbContext.SaveChangesAsync(ct);
@@ -183,7 +184,7 @@ public class TicketService : ITicketService
         await _dbContext.SaveChangesAsync(ct);
 
         // 5. Get vehicle info for response
-        var vehicle = await _dbContext.Set<Vehicle>()
+        var vehicle = await _dbContext.Vehicles
             .FirstOrDefaultAsync(v => v.Id == ticket.VehicleId, ct);
 
         return new ExitResponse

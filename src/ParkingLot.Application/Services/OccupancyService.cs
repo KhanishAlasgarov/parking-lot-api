@@ -1,23 +1,23 @@
 using Microsoft.EntityFrameworkCore;
+using ParkingLot.Application.Common.Interfaces;
 using ParkingLot.Application.DTOs;
 using ParkingLot.Application.Interfaces;
-using ParkingLot.Domain.Entities;
 using ParkingLot.Domain.Enums;
 
 namespace ParkingLot.Application.Services;
 
 public class OccupancyService : IOccupancyService
 {
-    private readonly DbContext _dbContext;
+    private readonly IApplicationDbContext _dbContext;
 
-    public OccupancyService(DbContext dbContext)
+    public OccupancyService(IApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
     public async Task<FloorAvailabilityResponse> GetFloorAvailabilityAsync(Guid floorId, CancellationToken ct = default)
     {
-        var spots = await _dbContext.Set<ParkingSpot>()
+        var spots = await _dbContext.ParkingSpots
             .Where(s => s.FloorId == floorId)
             .ToListAsync(ct);
 
