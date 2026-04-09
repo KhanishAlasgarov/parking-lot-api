@@ -15,44 +15,61 @@ public class PricingEngine : IPricingEngine
 
     public async Task<decimal> CalculateFeeAsync(Guid lotId, DateTime entryTime, DateTime exitTime, CancellationToken ct = default)
     {
-        var rates = (await _rateRepo.GetRatesForLotAsync(lotId, ct)).ToList();
+        // 4. Return 0 if entryTime == exitTime (edge case for immediate exit)
+        if (entryTime >= exitTime) return 0m;
 
-        if (!rates.Any())
+        var rates = (await _rateRepo.GetRatesForLotAsync(lotId, ct)).ToList();
+        if (!rates.Any()) return 0m;
+
+        // 1. Minimum charge: if duration < 30 minutes → charge 1 full hour minimum
+        var duration = exitTime - entryTime;
+        if (duration < TimeSpan.FromMinutes(30))
         {
-            // Fallback: no rates configured, return 0
-            return 0m;
+            exitTime = entryTime.AddHours(1);
         }
 
         var totalFee = 0m;
         var current = entryTime;
 
-        // Calculate hour-by-hour
-        while (current < exitTime)
+        // 2. Midnight crossing: split into day segments and calculate each
+        while (current.Date < exitTime.Date)
         {
-            var nextHour = current.AddHours(1);
-            if (nextHour > exitTime)
-                nextHour = exitTime;
+            var nextMidnight = current.Date.AddDays(1);
+            totalFee += CalculateFeeForSegment(rates, current, nextMidnight);
+            current = nextMidnight;
+        }
 
-            var hourOfDay = current.Hour;
-
-            // Find the matching rate for this hour
-            var rate = FindRateForHour(rates, hourOfDay, current);
-
-            if (rate is not null)
-            {
-                // Ceiling: any partial hour counts as a full hour
-                totalFee += rate.RatePerHour;
-            }
-
-            current = current.AddHours(1);
+        if (current < exitTime)
+        {
+            totalFee += CalculateFeeForSegment(rates, current, exitTime);
         }
 
         return totalFee;
     }
 
+    private static decimal CalculateFeeForSegment(List<ParkingRate> rates, DateTime start, DateTime end)
+    {
+        var fee = 0m;
+        var current = start;
+
+        while (current < end)
+        {
+            var hourOfDay = current.Hour;
+            var rate = FindRateForHour(rates, hourOfDay, current);
+
+            if (rate is not null)
+            {
+                fee += rate.RatePerHour;
+            }
+
+            current = current.AddHours(1);
+        }
+
+        return fee;
+    }
+
     private static ParkingRate? FindRateForHour(List<ParkingRate> rates, int hourOfDay, DateTime currentTime)
     {
-        // Find the most recent effective rate that covers this hour
         return rates
             .Where(r => r.EffectiveFrom <= currentTime &&
                         r.HourFrom <= hourOfDay &&
@@ -61,7 +78,8 @@ public class PricingEngine : IPricingEngine
             .FirstOrDefault()
             ?? rates
                 .Where(r => r.EffectiveFrom <= currentTime)
-                .OrderByDescending(r => r.EffectiveFrom)
+                .OrderByDescending(r => r.HourFrom)     // 3. Last defined rate (highest HourFrom)
+                .ThenByDescending(r => r.EffectiveFrom)
                 .FirstOrDefault();
     }
 }

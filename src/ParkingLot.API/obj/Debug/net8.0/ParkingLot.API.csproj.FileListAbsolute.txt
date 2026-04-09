@@ -130,3 +130,10 @@
 /home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.API/obj/Debug/net8.0/ParkingLot.API.pdb
 /home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.API/obj/Debug/net8.0/ParkingLot.API.genruntimeconfig.cache
 /home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.API/obj/Debug/net8.0/ref/ParkingLot.API.dll
+/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.API/bin/Debug/net8.0/Microsoft.Extensions.Caching.Abstractions.dll
+/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.API/bin/Debug/net8.0/Microsoft.Extensions.Caching.StackExchangeRedis.dll
+/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.API/bin/Debug/net8.0/Microsoft.Extensions.Primitives.dll
+/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.API/bin/Debug/net8.0/Pipelines.Sockets.Unofficial.dll
+/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.API/bin/Debug/net8.0/StackExchange.Redis.dll
+/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.API/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll
+/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.API/bin/Debug/net8.0/System.IO.Hashing.dll

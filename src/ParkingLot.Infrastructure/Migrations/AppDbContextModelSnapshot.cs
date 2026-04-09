@@ -235,6 +235,12 @@ namespace ParkingLot.Infrastructure.Migrations
                     b.Property<bool>("HasEvCharger")
                         .HasColumnType("boolean");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bytea");
+
                     b.Property<string>("SpotCode")
                         .IsRequired()
                         .HasColumnType("text");

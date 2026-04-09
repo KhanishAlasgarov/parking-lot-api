@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using ParkingLot.Domain.Enums;
 
 namespace ParkingLot.Domain.Entities;
@@ -10,4 +11,7 @@ public class ParkingSpot
     public SpotType SpotType { get; set; }
     public SpotStatus Status { get; set; }
     public bool HasEvCharger { get; set; }
+
+    [Timestamp]
+    public byte[] RowVersion { get; set; } = Array.Empty<byte>();
 }

@@ -30,6 +30,12 @@ public static class DependencyInjection
         services.AddScoped<IVehicleRepository, VehicleRepository>();
         services.AddScoped<IParkingRateRepository, ParkingRateRepository>();
 
+        // Redis
+        var redisConfig = config.GetSection("Redis")["ConnectionString"] ?? "localhost:6379";
+        services.AddSingleton<StackExchange.Redis.IConnectionMultiplexer>(
+            StackExchange.Redis.ConnectionMultiplexer.Connect(redisConfig + ",abortConnect=false"));
+        services.AddScoped<IOccupancyCache, ParkingLot.Infrastructure.Cache.RedisOccupancyCache>();
+
         return services;
     }
 }

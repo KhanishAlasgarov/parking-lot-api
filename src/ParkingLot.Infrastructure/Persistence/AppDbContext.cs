@@ -23,5 +23,9 @@ public class AppDbContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+        
+        modelBuilder.Entity<ParkingSpot>()
+            .Property(p => p.RowVersion)
+            .IsRowVersion();
     }
 }

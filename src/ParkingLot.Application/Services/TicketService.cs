@@ -16,24 +16,32 @@ public class TicketService : ITicketService
     private readonly IParkingTicketRepository _ticketRepo;
     private readonly IPricingEngine _pricingEngine;
     private readonly IApplicationDbContext _dbContext;
+    private readonly IOccupancyCache _cache;
+    private readonly IOccupancyHubNotifier _notifier;
+    private readonly IOccupancyService _occupancyService;
 
     public TicketService(
         IVehicleRepository vehicleRepo,
         IParkingSpotRepository spotRepo,
         IParkingTicketRepository ticketRepo,
         IPricingEngine pricingEngine,
-        IApplicationDbContext dbContext)
+        IApplicationDbContext dbContext,
+        IOccupancyCache cache,
+        IOccupancyHubNotifier notifier,
+        IOccupancyService occupancyService)
     {
         _vehicleRepo = vehicleRepo;
         _spotRepo = spotRepo;
         _ticketRepo = ticketRepo;
         _pricingEngine = pricingEngine;
         _dbContext = dbContext;
+        _cache = cache;
+        _notifier = notifier;
+        _occupancyService = occupancyService;
     }
 
     public async Task<IssueTicketResponse> IssueTicketAsync(IssueTicketRequest request, CancellationToken ct = default)
     {
-        // 1. Check vehicle by license plate; create if not found
         var vehicle = await _vehicleRepo.GetByLicensePlateAsync(request.LicensePlate, ct);
         if (vehicle is null)
         {
@@ -46,7 +54,6 @@ public class TicketService : ITicketService
             await _vehicleRepo.CreateAsync(vehicle, ct);
         }
 
-        // 2. Check if vehicle already has an active ticket
         var existingTickets = _dbContext.ParkingTickets
             .Where(t => t.VehicleId == vehicle.Id &&
                         (t.State == TicketState.Active || t.State == TicketState.Issued));
@@ -57,34 +64,52 @@ public class TicketService : ITicketService
                 $"Vehicle {request.LicensePlate} already has an active parking ticket.");
         }
 
-        // 3. Find available spot
-        var spot = await _spotRepo.GetAvailableSpotAsync(request.FloorId, request.SpotType, ct);
-        if (spot is null)
+        ParkingTicket ticket = null!;
+        ParkingSpot spot = null!;
+
+        int maxRetries = 1;
+        for (int i = 0; i <= maxRetries; i++)
         {
-            throw new SpotNotAvailableException(
-                $"No available {request.SpotType} spot on the requested floor.");
+            try
+            {
+                spot = await _spotRepo.GetAvailableSpotAsync(request.FloorId, request.SpotType, ct);
+                if (spot is null)
+                {
+                    throw new SpotNotAvailableException(
+                        $"No available {request.SpotType} spot on the requested floor.");
+                }
+
+                ticket = new ParkingTicket
+                {
+                    Id = Guid.NewGuid(),
+                    TicketNumber = "TKT-" + DateTime.UtcNow.Ticks,
+                    VehicleId = vehicle.Id,
+                    SpotId = spot.Id,
+                    State = TicketState.Issued,
+                    EntryTime = DateTime.UtcNow
+                };
+                await _ticketRepo.CreateAsync(ticket, ct);
+
+                spot.Status = SpotStatus.Occupied;
+                await _spotRepo.UpdateAsync(spot, ct);
+
+                await _dbContext.SaveChangesAsync(ct);
+                break;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (i == maxRetries)
+                {
+                    throw new SpotNotAvailableException("Spot was taken during reservation. Please try again.");
+                }
+            }
         }
 
-        // 4. Create parking ticket
-        var ticket = new ParkingTicket
-        {
-            Id = Guid.NewGuid(),
-            TicketNumber = "TKT-" + DateTime.UtcNow.Ticks,
-            VehicleId = vehicle.Id,
-            SpotId = spot.Id,
-            State = TicketState.Issued,
-            EntryTime = DateTime.UtcNow
-        };
-        await _ticketRepo.CreateAsync(ticket, ct);
+        // Redis cache invalidation and SignalR notification
+        await _cache.InvalidateAsync(request.FloorId);
+        var floorStatus = await _occupancyService.GetFloorAvailabilityAsync(request.FloorId, ct);
+        await _notifier.NotifyFloorUpdatedAsync(request.FloorId, floorStatus);
 
-        // 5. Update spot status to Occupied
-        spot.Status = SpotStatus.Occupied;
-        await _spotRepo.UpdateAsync(spot, ct);
-
-        // 6. Save all changes
-        await _dbContext.SaveChangesAsync(ct);
-
-        // 7. Return response
         return new IssueTicketResponse
         {
             TicketNumber = ticket.TicketNumber,
@@ -95,21 +120,18 @@ public class TicketService : ITicketService
 
     public async Task<PayTicketResponse> PayTicketAsync(PayTicketRequest request, CancellationToken ct = default)
     {
-        // 1. Get ticket by TicketNumber
         var ticket = await _ticketRepo.GetByTicketNumberAsync(request.TicketNumber, ct);
         if (ticket is null)
         {
             throw new TicketNotFoundException($"Ticket {request.TicketNumber} not found.");
         }
 
-        // 2. Validate state
         if (ticket.State != TicketState.Active && ticket.State != TicketState.Issued)
         {
             throw new InvalidTicketStateException(
                 $"Ticket {request.TicketNumber} is in state {ticket.State} and cannot be paid.");
         }
 
-        // 3. Calculate fee
         var exitTime = DateTime.UtcNow;
         var spot = await _spotRepo.GetByIdAsync(ticket.SpotId, ct);
         var lotId = spot is not null
@@ -118,13 +140,11 @@ public class TicketService : ITicketService
 
         var totalAmount = await _pricingEngine.CalculateFeeAsync(lotId, ticket.EntryTime, exitTime, ct);
 
-        // 4. Update ticket
         ticket.State = TicketState.Paid;
         ticket.PaidAt = DateTime.UtcNow;
         ticket.TotalAmount = totalAmount;
         await _ticketRepo.UpdateAsync(ticket, ct);
 
-        // 5. Create payment
         var payment = new Payment
         {
             Id = Guid.NewGuid(),
@@ -136,10 +156,8 @@ public class TicketService : ITicketService
         };
         _dbContext.Payments.Add(payment);
 
-        // 6. Save changes
         await _dbContext.SaveChangesAsync(ct);
 
-        // 7. Return response
         return new PayTicketResponse
         {
             ReferenceNo = payment.ReferenceNo,
@@ -155,7 +173,6 @@ public class TicketService : ITicketService
 
     public async Task<ExitResponse> ExitVehicleAsync(ExitRequest request, CancellationToken ct = default)
     {
-        // 1. Get ticket and validate state
         var ticket = await _ticketRepo.GetByTicketNumberAsync(request.TicketNumber, ct);
         if (ticket is null)
         {
@@ -167,23 +184,30 @@ public class TicketService : ITicketService
             throw new InvalidTicketStateException("Payment required before exit.");
         }
 
-        // 2. Close ticket
         ticket.State = TicketState.Closed;
         ticket.ExitTime = DateTime.UtcNow;
         await _ticketRepo.UpdateAsync(ticket, ct);
 
-        // 3. Free the spot
         var spot = await _spotRepo.GetByIdAsync(ticket.SpotId, ct);
+        Guid? floorId = null;
+
         if (spot is not null)
         {
             spot.Status = SpotStatus.Free;
             await _spotRepo.UpdateAsync(spot, ct);
+            floorId = spot.FloorId;
         }
 
-        // 4. Save changes
         await _dbContext.SaveChangesAsync(ct);
 
-        // 5. Get vehicle info for response
+        if (floorId.HasValue)
+        {
+            // Redis cache invalidation and SignalR notification
+            await _cache.InvalidateAsync(floorId.Value);
+            var floorStatus = await _occupancyService.GetFloorAvailabilityAsync(floorId.Value, ct);
+            await _notifier.NotifyFloorUpdatedAsync(floorId.Value, floorStatus);
+        }
+
         var vehicle = await _dbContext.Vehicles
             .FirstOrDefaultAsync(v => v.Id == ticket.VehicleId, ct);
 

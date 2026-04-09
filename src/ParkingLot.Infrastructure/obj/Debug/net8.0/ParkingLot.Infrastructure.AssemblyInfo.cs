@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ParkingLot.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a15908cd08059c0e217e9329b4a4b2a05c78a99e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+95a1db8d6fa026016331e3fe78a596e448f3d0df")]
 [assembly: System.Reflection.AssemblyProductAttribute("ParkingLot.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ParkingLot.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

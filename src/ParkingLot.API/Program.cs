@@ -5,11 +5,16 @@ using ParkingLot.API.Middlewares;
 using ParkingLot.Application;
 using ParkingLot.Infrastructure;
 
+using ParkingLot.API.Hubs;
+using ParkingLot.Application.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSignalR();
+builder.Services.AddScoped<IOccupancyHubNotifier, OccupancyHubNotifier>();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new global::Microsoft.OpenApi.Models.OpenApiInfo { Title = "ParkingLot API", Version = "v1" });
@@ -88,5 +93,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<OccupancyHub>("/ws/occupancy");
 
 app.Run();

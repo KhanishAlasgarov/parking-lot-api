@@ -9,14 +9,22 @@ namespace ParkingLot.Application.Services;
 public class OccupancyService : IOccupancyService
 {
     private readonly IApplicationDbContext _dbContext;
+    private readonly IOccupancyCache _cache;
 
-    public OccupancyService(IApplicationDbContext dbContext)
+    public OccupancyService(IApplicationDbContext dbContext, IOccupancyCache cache)
     {
         _dbContext = dbContext;
+        _cache = cache;
     }
 
     public async Task<FloorAvailabilityResponse> GetFloorAvailabilityAsync(Guid floorId, CancellationToken ct = default)
     {
+        var cached = await _cache.GetAsync(floorId);
+        if (cached != null)
+        {
+            return cached;
+        }
+
         var spots = await _dbContext.ParkingSpots
             .Where(s => s.FloorId == floorId)
             .ToListAsync(ct);
@@ -27,12 +35,15 @@ public class OccupancyService : IOccupancyService
             .GroupBy(s => s.SpotType.ToString())
             .ToDictionary(g => g.Key, g => g.Count());
 
-        return new FloorAvailabilityResponse
+        var response = new FloorAvailabilityResponse
         {
             FloorId = floorId,
             FreeSpotsCount = freeSpots.Count,
             TotalSpots = spots.Count,
             ByType = byType
         };
+
+        await _cache.SetAsync(floorId, response, TimeSpan.FromSeconds(5));
+        return response;
     }
 }
