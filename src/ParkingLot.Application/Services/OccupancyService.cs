@@ -10,11 +10,13 @@ public class OccupancyService : IOccupancyService
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IOccupancyCache _cache;
+    private readonly IDapperOccupancyRepository _dapperRepo;
 
-    public OccupancyService(IApplicationDbContext dbContext, IOccupancyCache cache)
+    public OccupancyService(IApplicationDbContext dbContext, IOccupancyCache cache, IDapperOccupancyRepository dapperRepo)
     {
         _dbContext = dbContext;
         _cache = cache;
+        _dapperRepo = dapperRepo;
     }
 
     public async Task<FloorAvailabilityResponse> GetFloorAvailabilityAsync(Guid floorId, CancellationToken ct = default)
@@ -35,10 +37,13 @@ public class OccupancyService : IOccupancyService
             .GroupBy(s => s.SpotType.ToString())
             .ToDictionary(g => g.Key, g => g.Count());
 
+        // Supplemental Dapper query to demonstrate raw SQL alongside EF Core
+        var dapperFreeSpotsCount = await _dapperRepo.GetFreeSpotCountAsync(floorId);
+
         var response = new FloorAvailabilityResponse
         {
             FloorId = floorId,
-            FreeSpotsCount = freeSpots.Count,
+            FreeSpotsCount = dapperFreeSpotsCount, // Using Dapper query result here
             TotalSpots = spots.Count,
             ByType = byType
         };

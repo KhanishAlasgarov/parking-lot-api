@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "d9ZAZoPBz9Ffr+V7qYOFLrVAFmgB+jreRQBNQu1ep/PXRxMjd5nGZsC+I9oRv9sQP5jCRgtmcaNLBLF/euwHDg==",
+  "dgSpecHash": "yZ4/XDxVEv7Gf/R3J86q1RKXGmfxbU28A5mMnn4KktcJkA2jIS4fhFg6xbIijuLLjkzFfBqVXXxECpNIzNwd8Q==",
   "success": true,
   "projectFilePath": "/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Infrastructure/ParkingLot.Infrastructure.csproj",
   "expectedPackageFiles": [
+    "/home/khanish/.nuget/packages/dapper/2.1.72/dapper.2.1.72.nupkg.sha512",
     "/home/khanish/.nuget/packages/fluentvalidation/11.11.0/fluentvalidation.11.11.0.nupkg.sha512",
     "/home/khanish/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.11.0/fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "/home/khanish/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",

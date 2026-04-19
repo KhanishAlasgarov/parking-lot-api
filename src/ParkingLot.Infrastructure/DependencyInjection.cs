@@ -29,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<IParkingTicketRepository, ParkingTicketRepository>();
         services.AddScoped<IVehicleRepository, VehicleRepository>();
         services.AddScoped<IParkingRateRepository, ParkingRateRepository>();
+        services.AddScoped<IDapperOccupancyRepository, DapperOccupancyRepository>();
 
         // Redis
         var redisConfig = config.GetSection("Redis")["ConnectionString"] ?? "localhost:6379";

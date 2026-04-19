@@ -276,3 +276,4 @@
 /home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.API/obj/Debug/net8.0/ParkingLot.API.pdb
 /home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.API/obj/Debug/net8.0/ParkingLot.API.genruntimeconfig.cache
 /home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.API/obj/Debug/net8.0/ref/ParkingLot.API.dll
+/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.API/bin/Debug/net8.0/Dapper.dll
