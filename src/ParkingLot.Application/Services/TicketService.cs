@@ -82,7 +82,7 @@ public class TicketService : ITicketService
                 ticket = new ParkingTicket
                 {
                     Id = Guid.NewGuid(),
-                    TicketNumber = "TKT-" + DateTime.UtcNow.Ticks,
+                    TicketNumber = "TKT-" + Guid.NewGuid().ToString("N")[..8].ToUpper(),
                     VehicleId = vehicle.Id,
                     SpotId = spot.Id,
                     State = TicketState.Issued,
@@ -152,7 +152,7 @@ public class TicketService : ITicketService
             Amount = totalAmount,
             PaymentType = request.PaymentType,
             PaidAt = DateTime.UtcNow,
-            ReferenceNo = "PAY-" + DateTime.UtcNow.Ticks
+            ReferenceNo = "PAY-" + Guid.NewGuid().ToString("N")[..8].ToUpper()
         };
         _dbContext.Payments.Add(payment);
 
