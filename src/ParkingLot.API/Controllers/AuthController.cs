@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ParkingLot.Application.DTOs;
 using ParkingLot.Application.Interfaces;
+using ParkingLot.Domain.Enums;
 using ParkingLot.Infrastructure.Identity;
 
 namespace ParkingLot.API.Controllers;
@@ -35,7 +36,7 @@ public class AuthController : ControllerBase
             Id = Guid.NewGuid(),
             UserName = request.Email,
             Email = request.Email,
-            Role = request.Role
+            Role = UserRole.Customer
         };
 
         var result = await _userManager.CreateAsync(user, request.Password);

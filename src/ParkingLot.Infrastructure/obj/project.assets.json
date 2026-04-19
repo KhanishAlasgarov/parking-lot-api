@@ -2914,11 +2914,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Infrastructure/ParkingLot.Infrastructure.csproj",
+      "projectUniqueName": "/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Infrastructure/ParkingLot.Infrastructure.csproj",
       "projectName": "ParkingLot.Infrastructure",
-      "projectPath": "/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Infrastructure/ParkingLot.Infrastructure.csproj",
+      "projectPath": "/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Infrastructure/ParkingLot.Infrastructure.csproj",
       "packagesPath": "/home/khanish/.nuget/packages/",
-      "outputPath": "/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Infrastructure/obj/",
+      "outputPath": "/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Infrastructure/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/khanish/.nuget/NuGet/NuGet.Config"
@@ -2933,11 +2933,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Application/ParkingLot.Application.csproj": {
-              "projectPath": "/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Application/ParkingLot.Application.csproj"
+            "/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Application/ParkingLot.Application.csproj": {
+              "projectPath": "/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Application/ParkingLot.Application.csproj"
             },
-            "/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Domain/ParkingLot.Domain.csproj": {
-              "projectPath": "/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Domain/ParkingLot.Domain.csproj"
+            "/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/ParkingLot.Domain.csproj": {
+              "projectPath": "/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/ParkingLot.Domain.csproj"
             }
           }
         }
@@ -2999,7 +2999,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.124/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.125/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

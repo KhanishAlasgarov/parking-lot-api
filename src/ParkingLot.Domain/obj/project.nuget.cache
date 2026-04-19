@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1+3rCJAX7ehBVEzPfiBavPALlqfBBC8OVbIEO/5utdtkpvxTAQZ5fqGaVsgtDzEY3JMX2Dei9kxGVj88hRWSIw==",
+  "dgSpecHash": "hb7b5/7PbRib6DtaOwZmObvnekYiaPSwC2jYGB+gyPBXBO1sbuYOwJApksNvqB/vUUwZq3w2QSC7YuJ8JVoIHA==",
   "success": true,
-  "projectFilePath": "/home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Domain/ParkingLot.Domain.csproj",
+  "projectFilePath": "/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/ParkingLot.Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

@@ -10,3 +10,15 @@
 /home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/refint/ParkingLot.Domain.dll
 /home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/ParkingLot.Domain.pdb
 /home/khanish/Masaüstü/Anti-gravity-apps/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/ref/ParkingLot.Domain.dll
+/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/bin/Debug/net8.0/ParkingLot.Domain.deps.json
+/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/bin/Debug/net8.0/ParkingLot.Domain.dll
+/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/bin/Debug/net8.0/ParkingLot.Domain.pdb
+/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/ParkingLot.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/ParkingLot.Domain.AssemblyInfoInputs.cache
+/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/ParkingLot.Domain.AssemblyInfo.cs
+/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/ParkingLot.Domain.csproj.CoreCompileInputs.cache
+/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/ParkingLot.Domain.sourcelink.json
+/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/ParkingLot.Domain.dll
+/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/refint/ParkingLot.Domain.dll
+/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/ParkingLot.Domain.pdb
+/home/khanish/Masaüstü/VibeCodingApp/Back-end Projects/ParkingLot/src/ParkingLot.Domain/obj/Debug/net8.0/ref/ParkingLot.Domain.dll
