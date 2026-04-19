@@ -1,4 +1,4 @@
-## .NET
+# .NET
 bin/
 obj/
 *.user
@@ -6,16 +6,16 @@ obj/
 *.cache
 *.DotSettings.user
 
-## IDE
+# IDE
 .vs/
 .vscode/
 .idea/
 *.swp
 
-## OS
+# OS
 .DS_Store
 Thumbs.db
 
-## Sensitive config
+# Sensitive config
 appsettings.Development.json
 appsettings.Production.json
